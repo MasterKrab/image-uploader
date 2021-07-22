@@ -9,6 +9,7 @@
 <style>
   footer {
     margin-top: auto;
+    padding-top: 1rem;
     color: var(--text-light-2);
     text-align: center;
   }
