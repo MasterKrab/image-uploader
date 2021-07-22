@@ -1,0 +1,41 @@
+:root {
+  --font-primary: "Poppins", sans-serif;
+
+  --bg-color: #fafafb;
+  --card-bg: #fff;
+  --text-color: #4f4f4f;
+  --text-light: #828282;
+  --text-light-2: #bdbdbd;
+  --element-color: #2f80ed;
+  --drop-zone-bg: #f6f8fb;
+  --drop-zone-bg-hover: #ebedf0;
+  --bar-color: #f2f2f2;
+  --image-url: #f6f8fb;
+  --image-url-border: #e0e0e0;
+  --error: #f46262;
+}
+
+html {
+  background-color: var(--bg-color);
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  font-family: var(--font-primary);
+}
+
+img {
+  max-width: 100%;
+}

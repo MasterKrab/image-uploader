@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nanoid": "^3.1.23",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2"
+  }
+}
