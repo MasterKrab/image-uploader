@@ -18,7 +18,7 @@
     try {
       loading = true;
       const data = await fetch(
-        "https://image-uploader-backend-234.herokuapp.com/upload",
+        "https://api.allorigins.win/raw?url=https://image-uploader-backend-234.herokuapp.com/upload",
         {
           method: "POST",
           body: formData,
