@@ -17,10 +17,13 @@
   const sendFile = async (formData: any) => {
     try {
       loading = true;
-      const data = await fetch("http://localhost:3000/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const data = await fetch(
+        "https://image-uploader-backend-steel.vercel.app/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const res = await data.json();
 
       loading = false;
