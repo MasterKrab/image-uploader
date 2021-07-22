@@ -9,7 +9,7 @@ app.use(express.static(`${__dirname}/public`));
 const cors = require("cors");
 
 const corsConfig = {
-  origin: "https://image-uploader-orcin.vercel.app/",
+  origin: "https://image-uploader-orcin.vercel.app",
 };
 
 app.use(cors(corsConfig));
