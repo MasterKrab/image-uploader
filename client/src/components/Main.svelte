@@ -18,13 +18,14 @@
     try {
       loading = true;
       const data = await fetch(
-        "https://image-uploader-backend-steel.vercel.app/upload",
+        "https://image-uploader-backend-234.herokuapp.com/upload",
         {
           method: "POST",
           body: formData,
         }
       );
       const res = await data.json();
+      console.log(res);
 
       loading = false;
 
