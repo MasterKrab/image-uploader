@@ -18,9 +18,9 @@ app.use(cors(corsConfig));
 app.use("/", require("./router/images"));
 
 app.get("/", (req, res) => {
-  res.json({
-    state: true,
-    message: "test",
+  res.status(404).json({
+    state: false,
+    message: "Not found",
   });
 });
 

@@ -29,19 +29,19 @@ const upload = multer({
 
     mimetype && extensionName
       ? callBack(null, true)
-      : callBack("Error: File must be a valid image");
+      : callBack("File must be a valid image");
   },
 }).single("image");
 
 router.post("/upload", (req, res) => {
   upload(req, res, (error) => {
     if (error) {
-      res.json({
+      res.status(400).json({
         state: false,
         message: error.code === "LIMIT_FILE_SIZE" ? "Limit file size" : error,
       });
     } else {
-      res.json({
+      res.status(201).json({
         state: true,
         message: "Uploaded",
         image_url: `${req.protocol}://${req.get("host")}/images/${
