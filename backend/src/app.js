@@ -10,7 +10,6 @@ const cors = require("cors");
 
 const corsConfig = {
   origin: "https://image-uploader-orcin.vercel.app",
-  // origin: "http://localhost:5000",
 };
 
 app.use(cors(corsConfig));
