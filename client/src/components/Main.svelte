@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import Upload from "./Upload.svelte";
+  import Loader from "./Loader.svelte";
+  import Error from "./Error.svelte";
 
   let loading: boolean = false;
   let imageUrl: string;
@@ -39,15 +41,12 @@
   };
 
   const handleChange = (e: any) => {
-    const form = e.target.classList.contains("form")
-      ? e.target
-      : e.target.parentElement;
-    const formData = new FormData(form);
+    const formData = new FormData(e.detail.form);
     sendFile(formData);
   };
 
-  const handleDrop = (e: DragEvent) => {
-    const file: any = e.dataTransfer.items[0].getAsFile();
+  const handleDrop = (e: CustomEvent) => {
+    const file: any = e.detail.dataTransfer.items[0].getAsFile();
 
     if (file.size > 2000000)
       return showError("File size must not be larger than 2mb");
@@ -63,7 +62,7 @@
     }
   };
 
-  let dragover = false;
+  let dragover: boolean = false;
 
   const handleDragover = () => (dragover = true);
 
@@ -99,11 +98,7 @@
 </script>
 
 <main>
-  {#if errorMessage}
-    <p transition:fade={{ duration: 200 }} class="error" role="alert">
-      {errorMessage}
-    </p>
-  {/if}
+  <Error {errorMessage} />
 
   {#if imageUrl}
     <section class="result">
@@ -121,38 +116,14 @@
       </div>
     </section>
   {:else if !loading}
-    <section class="card">
-      <h1 class="title">Upload your image</h1>
-      <h2 class="subtitle">File should be Jpeg, Png,...</h2>
-
-      <div
-        on:drop|preventDefault={handleDrop}
-        on:dragover|preventDefault={handleDragover}
-        on:dragleave|preventDefault={handleDragleave}
-        class="drop-zone"
-        class:drop-zone--dragover={dragover}
-      >
-        <p class="drop-zone__text">Drag & Drop your image here</p>
-      </div>
-
-      <p class="separator">or</p>
-
-      <form on:change|preventDefault={handleChange} class="form">
-        <label class="form__label" for="file"> Choose a file </label>
-        <input
-          type="file"
-          name="image"
-          accept="image/jpeg, image/jpg, image/png, image/gif"
-          id="file"
-          class="form__input"
-        />
-      </form>
-    </section>
+    <Upload
+      on:drop={handleDrop}
+      on:draover={handleDragover}
+      on:uploadFile={handleChange}
+      isDragover={dragover}
+    />
   {:else}
-    <section class="loader" role="alert">
-      <p class="loader__text">Uploading</p>
-      <div class="loader__bar" aria-hidden="true" />
-    </section>
+    <Loader />
   {/if}
 </main>
 
@@ -184,20 +155,6 @@
     font-size: 1.125rem;
   }
 
-  .error {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    font-size: 1rem;
-    color: var(--error);
-
-    @media screen and(min-width: 350px) {
-      font-size: 1.5rem;
-    }
-  }
-
-  .card,
-  .loader,
   .result {
     background-color: var(--card-bg);
     max-width: 402px;
@@ -207,102 +164,6 @@
     padding: 2.25rem 2rem;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .card {
-    min-height: 469px;
-  }
-
-  .title {
-    margin-top: 16px;
-  }
-
-  .subtitle {
-    font-size: 0.625rem;
-    color: var(--text-light);
-  }
-
-  .drop-zone {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    background-image: url(../assets/image.svg);
-    background-repeat: no-repeat;
-    background-position: center 35px;
-    background-color: var(--drop-zone-bg);
-    height: 218.9px;
-    margin-top: 29px;
-    margin-bottom: 19px;
-    border: 1px dashed var(--element-color);
-    border-radius: 0.75rem;
-    font-size: 0.75rem;
-    transition: background-color 0.25s;
-
-    &--dragover {
-      background-color: var(--drop-zone-bg-hover);
-    }
-
-    &__text {
-      color: var(--text-light-2);
-      margin-bottom: 40px;
-    }
-  }
-
-  .separator {
-    margin-bottom: 22px;
-    color: var(--text-light-2);
-  }
-
-  .form {
-    &__input {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-
-    &__label {
-      @extend %button;
-    }
-  }
-
-  @keyframes loading {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(400%);
-    }
-  }
-
-  .loader {
-    text-align: left;
-
-    &__text {
-      margin-top: 0;
-      margin-bottom: 30xp;
-    }
-
-    &__bar {
-      position: relative;
-      background-color: var(--bar-color);
-      overflow-x: hidden;
-
-      &,
-      &::before {
-        height: 6px;
-        border-radius: 8px;
-      }
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: var(--element-color);
-        width: 100.93px;
-        animation: loading 2s ease infinite;
-      }
-    }
   }
 
   .result {
