@@ -41,7 +41,7 @@
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: CustomEvent) => {
     const formData = new FormData(e.detail.form);
     sendFile(formData);
   };
