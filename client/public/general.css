@@ -40,6 +40,11 @@ img {
   max-width: 100%;
 }
 
+h1 {
+  color: var(--text-color);
+  font-size: 1.125rem;
+}
+
 .card {
   background-color: var(--card-bg);
   max-width: 402px;

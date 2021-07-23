@@ -50,8 +50,6 @@
 
   .title {
     margin-top: 16px;
-    color: var(--text-color);
-    font-size: 1.125rem;
   }
 
   .subtitle {
