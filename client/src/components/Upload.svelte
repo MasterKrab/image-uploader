@@ -1,13 +1,18 @@
 <script lang="ts">
+  import type UploadEvents from "../types/upload-events";
   import { createEventDispatcher } from "svelte";
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<UploadEvents>();
 
-  const handleDrop = ({ dataTransfer }) => dispatch("drop", { dataTransfer });
-  const handleChange = (event: any) =>
-    dispatch("uploadFile", { form: event.target.parentElement });
+  const handleDrop = ({ dataTransfer }: DragEvent) =>
+    dispatch("drop", { dataTransfer });
 
-  let isDragover: boolean = false;
+  const handleChange = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    dispatch("uploadFile", { form: target.parentElement as HTMLFormElement });
+  };
+
+  let isDragover = false;
 
   const handleDragover = () => (isDragover = true);
 

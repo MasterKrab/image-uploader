@@ -8,11 +8,7 @@ app.use(express.static(`${__dirname}/public`));
 // Cors
 const cors = require("cors");
 
-const corsConfig = {
-  origin: "https://image-uploader-orcin.vercel.app",
-};
-
-app.use(cors(corsConfig));
+app.use(cors());
 
 // Routes
 app.use("/", require("./router/images"));

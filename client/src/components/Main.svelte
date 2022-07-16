@@ -1,10 +1,14 @@
 <script lang="ts">
+  import type {
+    UploadDropEvent,
+    UploadFileEvent,
+  } from "../types/upload-events";
   import Error from "./Error.svelte";
   import Result from "./Result.svelte";
   import Upload from "./Upload.svelte";
   import Loader from "./Loader.svelte";
 
-  let loading: boolean = false;
+  let loading = false;
   let imageUrl: string;
 
   let errorMessage: string;
@@ -17,23 +21,28 @@
     }, 3000);
   };
 
-  const sendFile = async (formData: any) => {
+  interface Data {
+    state: false;
+    message: string;
+    image_url?: string;
+  }
+
+  const sendFile = async (formData: FormData) => {
     try {
       loading = true;
-      const data = await fetch(
+      const response = await fetch(
         "https://image-uploader-backend-234.herokuapp.com/upload",
         {
           method: "POST",
           body: formData,
         }
       );
-      const res = await data.json();
-      console.log(res);
+      const data: Data = await response.json();
 
       loading = false;
 
-      if (res.state) imageUrl = res.image_url;
-      else showError(res.message);
+      if (data.state) imageUrl = data.image_url;
+      else showError(data.message);
     } catch (error) {
       loading = false;
       showError("An error has ocurred");
@@ -41,13 +50,13 @@
     }
   };
 
-  const handleChange = (e: CustomEvent) => {
+  const handleChange = (e: CustomEvent<UploadFileEvent>) => {
     const formData = new FormData(e.detail.form);
     sendFile(formData);
   };
 
-  const handleDrop = (e: CustomEvent) => {
-    const file: any = e.detail.dataTransfer.items[0].getAsFile();
+  const handleDrop = (e: CustomEvent<UploadDropEvent>) => {
+    const file = e.detail.dataTransfer.items[0].getAsFile();
 
     if (file.size > 2000000)
       return showError("File size must not be larger than 2mb");

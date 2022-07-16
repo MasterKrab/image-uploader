@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import CopyButton from "./CopyButton.svelte";
   export let imageUrl = "";
 </script>

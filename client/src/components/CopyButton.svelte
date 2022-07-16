@@ -5,7 +5,7 @@
 
   const requestClipboardPermisions = async () => {
     const { state } = await navigator.permissions.query({
-      name: "clipboard-write",
+      name: "clipboard-write" as PermissionName,
     });
     return state == "granted" || state == "prompt";
   };
